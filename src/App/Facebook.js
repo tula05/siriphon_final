@@ -18,6 +18,7 @@ export default class Facebook extends Component {
   responseFacebook = response => {
     // console.log(response);
 
+    localStorage.setItem('user', JSON.stringify(response))
     this.setState({
       isLoggedIn: true,
       userID: response.userID,
@@ -27,9 +28,10 @@ export default class Facebook extends Component {
     });
   };
 
-  componentClicked = () => console.log("clicked");
+  componentClicked = () => console.log("Login facebook succesfuly");
 
   logoutFacebook = () => {
+    localStorage.removeItem('user')
     this.setState({
       isLoggedIn: false,
       userID: '',
@@ -42,7 +44,7 @@ export default class Facebook extends Component {
   render() {
     let fbContent;
 
-    if (this.state.isLoggedIn) {
+    if (localStorage.getItem('user')!== null) {
       fbContent = (
         <div
           style={{
@@ -56,9 +58,9 @@ export default class Facebook extends Component {
             backgroundImage: 'linear-gradient(45deg, rgba(218, 132, 230, 0.84) 0%, rgba(179, 0, 89, 1) 83%)'
           }}
         >
-          <img src={this.state.picture} alt={this.state.name} />
-          <h2>Welcome {this.state.name}</h2>
- 	  email: {this.state.email}
+          <img src={JSON.parse(localStorage.getItem('user')).picture.data.url} alt/>
+          <h2>Welcome {" "}{JSON.parse(localStorage.getItem('user')).name}</h2>
+       email: {JSON.parse(localStorage.getItem('user')).email}
           <div className="my-3"><a className="btn btn-danger" href="/" onClick={this.logoutFacebook}>Logout</a></div>
           <BrowserRouter>
             <br /><br /><div className="btn-group btn-group-lg"><ButtonRegister /><ButtonShowdata /></div>
@@ -79,7 +81,7 @@ export default class Facebook extends Component {
           }}
         >
           <FacebookLogin
-            appId="639373010269446"
+            appId="477038287407204"
             autoLoad={false}
             fields="name,email,picture"
             onClick={this.componentClicked}

@@ -7,6 +7,7 @@ const mysql = require('mysql');
 var fs = require('fs');
 var http = require('http');
 var https = require('https');
+const { Redirect } = require('react-router-dom/cjs/react-router-dom.min');
 //var privateKey  = fs.readFileSync(path.resolve('server/key.pem', 'utf8'));
 var privateKey  = fs.readFileSync(__dirname+'/key.pem', 'utf8');
 var certificate = fs.readFileSync(__dirname+'/cert.pem', 'utf8');
@@ -23,9 +24,9 @@ var httpsServer = https.createServer(credentials, app);
 //app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
 const db = mysql.createConnection({
-    host: '172.25.240.1',
-    user: 'bonn',
-    password: '1234',
+    host: '172.27.112.1',
+    user: 'tul',
+    password: '123456',
     database: 'testing'
 });
 // show data
@@ -64,7 +65,8 @@ app.post('/data', function(req, res){
     let data = {
         id:req.body.idkey,
         firstname:req.body.firstname,
-        lastname:req.body.lastname
+        lastname:req.body.lastname,
+        email:req.body.email
     };
     let sql = 'INSERT INTO users SET ?';
     db.query(sql, data, (err, result)=>{
